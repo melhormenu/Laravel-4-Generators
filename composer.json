@@ -1,11 +1,15 @@
 {
-    "name": "way/generators",
+    "name": "melhormenu/generators",
     "description": "Rapidly generate resources, migrations, models, and much more.",
     "license": "MIT",
     "authors": [
         {
             "name": "Jeffrey Way",
             "email": "jeffrey@jeffrey-way.com"
+        },
+        {
+          "name": "Hugo Leonardo Costa e Silva",
+          "email": "hugoleodev@gmail.com",
         }
     ],
     "require": {
