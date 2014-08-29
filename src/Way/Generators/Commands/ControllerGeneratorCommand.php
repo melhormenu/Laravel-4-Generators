@@ -50,7 +50,10 @@ class ControllerGeneratorCommand extends GeneratorCommand {
         // Lesson
         $model = ucwords($resource);
 
-        return compact('name', 'collection', 'resource', 'model');
+        // Lessons
+        $description = ucwords($collection);
+
+        return compact('name', 'collection', 'resource', 'model', 'description');
     }
 
     /**

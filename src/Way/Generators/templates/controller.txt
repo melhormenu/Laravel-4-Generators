@@ -10,7 +10,12 @@ class $NAME$ extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$$COLLECTION$ = $MODEL$::all();
+
+		if($$COLLECTION$) {
+				return $this->apiResponse(true, 'Success listing $DESCRIPTION$.', $$COLLECTION$);
+		}
+		return $this->apiResponse(false, 'Error listing $DESCRIPTION$.', null);
 	}
 
 	/**
@@ -32,7 +37,16 @@ class $NAME$ extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$data = Input::except('q');
+
+		$$RESOURCE$ = new $MODEL$($data);
+
+		try {
+				$$RESOURCE$->saveOrFail();
+				return $this->apiResponse(true, 'Success creating $MODEL$.', $$RESOURCE$, [], 201);
+		} catch (\Exception $e) {
+				return $this->apiResponse(true, $e->getMessage(), [], $$RESOURCE$->getErrors(), 400);
+		}
 	}
 
 	/**
@@ -44,7 +58,12 @@ class $NAME$ extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$$RESOURCE$ = new $MODEL$($id);
+
+		if($$RESOURCE$){
+				return $this->apiResponse(true, 'Success getting $MODEL$.', $$RESOURCE$);
+		}
+		return $this->apiResponse(false, 'Seems like there is no $MODEL$ with this id.', null);
 	}
 
 	/**
@@ -68,7 +87,16 @@ class $NAME$ extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$data = Input::except('id');
+
+		$$RESOURCE$ = $MODEL$::find($id);
+		$$RESOURCE$->fill($data);
+		try {
+				$$RESOURCE$->saveOrFail();
+				return $this->apiResponse(true, 'Success updating the $MODEL$.', $$RESOURCE$, 201);
+		} catch(Exception $e) {
+				return $this->apiResponse(false, 'Error updating the $MODEL$', null, 400, $$RESOURCE$->getErrors());
+		}
 	}
 
 	/**
@@ -80,7 +108,14 @@ class $NAME$ extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$$RESOURCE$ = $MODEL$::find($id);
+
+		if($$RESOURCE$) {
+				$$RESOURCE$->delete();
+				return $this->apiResponse(false, 'Success deleting $MODEL$.', null,[], 204);
+		}
+
+		return $this->apiResponse(false, '$MODEL$ don\'t exist.', null);
 	}
 
 }
